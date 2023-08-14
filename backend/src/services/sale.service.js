@@ -2,7 +2,7 @@ const { saleModel } = require('../models');
 
 const getAllSales = async () => {
     const sales = await saleModel.findAll();
-    console.log(sales);
+
     return { status: 'SUCCESSFUL', data: sales };
 };
 
