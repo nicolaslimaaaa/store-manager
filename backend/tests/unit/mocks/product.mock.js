@@ -13,6 +13,11 @@ const productsFromDB = [
     },
   ];
 
+const productsFromService = {
+  status: 'SUCCESSFUL',
+  data: productsFromDB,
+};
+
 const productFomDBById = {
     id: 1,
     name: 'Martelo de Thor',
@@ -32,4 +37,5 @@ module.exports = {
     productNotFound,
     productIdFromDB,
     productIdFromModel,
+    productsFromService,
 };
