@@ -18,10 +18,18 @@ const productFomDBById = {
     name: 'Martelo de Thor',
 };
 
-const productNotFound = { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+const productNotFound = {
+  status: 'NOT_FOUND',
+  data: { message: 'Product not found' },
+};
+
+const productIdFromDB = { insertId: 5 };
+const productIdFromModel = 5;
 
 module.exports = {
     productsFromDB,
     productFomDBById,
     productNotFound,
+    productIdFromDB,
+    productIdFromModel,
 };

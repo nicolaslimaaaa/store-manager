@@ -10,7 +10,7 @@ const findAll = async () => {
         ON s.id = sp.sale_id
         ORDER BY sp.sale_id, sp.product_id;`,
     );
-        console.log(sales);
+
     return camelize(sales);
 };
 

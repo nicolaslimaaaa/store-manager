@@ -12,7 +12,15 @@ const getProductById = async (req, res) => {
     return res.status(mapStatusHTTP(status)).json(data);
 };
 
+const postProduct = async (req, res) => {
+    const product = req.body;
+    const { status, data } = await productService.postProduct(product);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
+    postProduct,
 };
