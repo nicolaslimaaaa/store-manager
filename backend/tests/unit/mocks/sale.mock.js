@@ -26,7 +26,12 @@ const salesFromDBById = {
     quantity: 15,
 };
 
+const saleIdFromDB = { insertId: 3 };
+const saleIdFromModel = 3;
+
 module.exports = {
     salesFromDB,
     salesFromDBById,
+    saleIdFromDB,
+    saleIdFromModel,
 };
