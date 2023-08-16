@@ -13,7 +13,7 @@ const findAll = async () => {
         ON s.id = sp.sale_id
         ORDER BY sp.sale_id, sp.product_id;`,
     );
-
+        
     return camelize(sales);
 };
 
@@ -45,7 +45,7 @@ const insert = async (sale) => {
     const querySaleProduct = `INSERT INTO sales_products (${newColumns})
     VALUE (${newPlaceholders});`;
 
-    Promise.all(sale
+    await Promise.all(sale
         .map((item) => connection
             .execute(querySaleProduct, [...Object.values(item), insertId])));
         
