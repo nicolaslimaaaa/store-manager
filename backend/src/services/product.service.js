@@ -16,13 +16,13 @@ const getProductById = async (id) => {
 
 const postProduct = async (product) => {
     const productId = await productModel.insert(product);
-
+    
     return { status: 'CREATED', data: { id: productId, ...product } };
 };
 
 const updateNameProduct = async (id, product) => {
     const productExists = await productModel.findById(id);
-
+    
     if (!productExists) {
         return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
     }
@@ -32,9 +32,22 @@ const updateNameProduct = async (id, product) => {
     return { status: 'SUCCESSFUL', data: { id, ...product } };
 };
 
+const deleteProduct = async (id) => {
+    const productExists = await productModel.findById(id);
+    
+    if (!productExists) {
+        return { status: 'NOT_FOUND', data: { message: 'Product not found' } };
+    }
+
+    await productModel.deleteById(id);
+
+    return { status: 'NO_CONTENT', data: {} };
+};
+
 module.exports = {
     getAllProducts,
     getProductById,
     postProduct,
     updateNameProduct,
+    deleteProduct,
 };

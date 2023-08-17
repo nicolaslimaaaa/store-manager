@@ -28,7 +28,7 @@ const insert = async (product) => {
     const query = `INSERT INTO products (${columns}) VALUE (${placeholders});`;
 
     const [{ insertId }] = await connection.execute(query, [...Object.values(product)]);
-
+    
     return insertId;
 };
 
@@ -37,7 +37,17 @@ const update = async (id, product) => {
     const placeholders = getFormattedPlaceholders(product);
     const query = `UPDATE products SET ${columns}=${placeholders} WHERE id = ?`;
 
-    return connection.execute(query, [...Object.values(product), id]);
+    const productUpdate = await connection.execute(query, [...Object.values(product), id]); 
+    
+    return productUpdate;
+};
+
+const deleteById = async (id) => {
+    const query = 'DELETE FROM products WHERE id = ?;';
+    
+    const productDelete = await connection.execute(query, [id]); 
+    
+    return productDelete;
 };
 
 module.exports = {
@@ -45,4 +55,5 @@ module.exports = {
     findById,
     insert,
     update,
+    deleteById,
 };

@@ -31,6 +31,19 @@ const productNotFound = {
 const productIdFromDB = { insertId: 5 };
 const productIdFromModel = 5;
 
+const returnUpdateFromDB = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: 'Rows matched: 1  Changed: 1  Warnings: 0',
+    serverStatus: 2,
+    warningStatus: 0,
+    changedRows: 1,
+  },
+  undefined,
+];
+
 module.exports = {
     productsFromDB,
     productFomDBById,
@@ -38,4 +51,5 @@ module.exports = {
     productIdFromDB,
     productIdFromModel,
     productsFromService,
+    returnUpdateFromDB,
 };

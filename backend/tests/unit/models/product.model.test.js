@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const { productModel } = require('../../../src/models');
 const connection = require('../../../src/models/connection');
-const { productsFromDB, productFomDBById, productIdFromDB, productIdFromModel } = require('../mocks/product.mock');
+const { productsFromDB, productFomDBById, productIdFromDB, productIdFromModel, returnUpdateFromDB } = require('../mocks/product.mock');
 
 describe('Realizando testes - PRODUCT MODEL:', function () {
     afterEach(function () {
@@ -34,5 +34,16 @@ describe('Realizando testes - PRODUCT MODEL:', function () {
 
         expect(insertId).to.be.a('number');
         expect(insertId).to.equal(productIdFromModel);
+    });
+
+    it('Será validado que não é possível alterar um produto sem o campo "name"', async function () {
+        sinon.stub(connection, 'execute').resolves(returnUpdateFromDB);
+        const id = 1;
+        const product = { name: 'Cubo Mágico' };
+
+        const productUpdate = await productModel.update(id, product);
+
+        expect(productUpdate[0].affectedRows).to.be.equal(1);
+        expect(productUpdate[0].changedRows).to.be.equal(1);
     });
 });
