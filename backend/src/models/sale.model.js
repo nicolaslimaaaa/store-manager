@@ -56,7 +56,7 @@ const deleteById = async (id) => {
     const query = 'DELETE FROM sales WHERE id = ?;';
     
     const saleDelete = await connection.execute(query, [id]); 
-    console.log(saleDelete);
+    
     return saleDelete;
 };
 

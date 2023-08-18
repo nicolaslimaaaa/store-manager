@@ -24,7 +24,7 @@ const deleteSale = async (req, res) => {
     const { id } = req.params;
 
     const { status, data } = await saleService.deleteSale(Number(id));
-    console.log(status);
+    
     return res.status(mapStatusHTTP(status)).json(data);
 };
 
