@@ -23,6 +23,11 @@ const productFomDBById = {
     name: 'Martelo de Thor',
 };
 
+const productFromService = {
+  status: 'SUCCESSFUL',
+  data: productFomDBById,
+};
+
 const productNotFound = {
   status: 'NOT_FOUND',
   data: { message: 'Product not found' },
@@ -44,6 +49,32 @@ const returnUpdateFromDB = [
   undefined,
 ];
 
+const returnDeleteFromDB = [
+  {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0,
+  },
+  undefined,
+];
+
+const returnDeleteFromService = {
+  status: 'NO_CONTENT',
+data: {},
+};
+
+const product = {
+  name: 'ProdutoX',
+};
+
+const productPostFromService = {
+  status: 'CREATED',
+  data: productFomDBById,
+};
+
 module.exports = {
     productsFromDB,
     productFomDBById,
@@ -52,4 +83,9 @@ module.exports = {
     productIdFromModel,
     productsFromService,
     returnUpdateFromDB,
+    returnDeleteFromDB,
+    returnDeleteFromService,
+    productFromService,
+    product,
+    productPostFromService,
 };

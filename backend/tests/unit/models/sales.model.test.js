@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { expect } = require('chai');
 const { saleModel } = require('../../../src/models');
 const connection = require('../../../src/models/connection');
-const { salesFromDB, salesFromDBById, saleIdFromDB, saleIdFromModel } = require('../mocks/sale.mock');
+const { salesFromDB, salesFromDBById, saleIdFromDB, saleIdFromModel, returnDeleteSaleFromDB } = require('../mocks/sale.mock');
 
 describe('Realizando testes - SALE MODEL:', function () {
     afterEach(function () {
@@ -39,5 +39,14 @@ describe('Realizando testes - SALE MODEL:', function () {
 
         expect(insertId).to.be.a('number');
         expect(insertId).to.equal(saleIdFromModel);
+    });
+
+    it('Será validado que não é possível deletar uma venda que não existe', async function () {
+        sinon.stub(connection, 'execute').resolves(returnDeleteSaleFromDB);
+        const id = 1;
+
+        const saleDelete = await saleModel.deleteById(id);
+
+        expect(saleDelete[0].affectedRows).to.be.equal(1);
     });
 });

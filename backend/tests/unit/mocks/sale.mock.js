@@ -81,6 +81,28 @@ const erroSaleWithQuantityLessThanOrEqualToZero = {
   message: '"quantity" must be greater than or equal to 1',
 };
 
+const returnDeleteSaleFromDB = [
+   {
+    fieldCount: 0,
+    affectedRows: 1,
+    insertId: 0,
+    info: '',
+    serverStatus: 2,
+    warningStatus: 0,
+  },
+  undefined,
+];
+
+const postSaleFromService = {
+  id: 1,
+  itemsSold: salesFromDB,
+};
+
+const newSale = {
+  productId: 2,
+  quantity: 5,
+};
+
 module.exports = {
     salesFromDB,
     salesFromDBById,
@@ -94,4 +116,7 @@ module.exports = {
     erroSaleWithoutQuantity,
     saleWithQuantityLessThanOrEqualToZero,
     erroSaleWithQuantityLessThanOrEqualToZero,
+    returnDeleteSaleFromDB,
+    postSaleFromService,
+    newSale,
 };

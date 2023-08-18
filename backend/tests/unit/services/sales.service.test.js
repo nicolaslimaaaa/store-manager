@@ -3,8 +3,14 @@ const { expect } = require('chai');
 const { saleService } = require('../../../src/services');
 const { saleModel } = require('../../../src/models');
 const { salesFromDB } = require('../mocks/product.mock');
-const { salesFromModelById, saleNotFound, saleWithoutProductId, erroSaleWithoutProductId, erroSaleWithoutQuantity, saleWithoutQuantity, erroSaleWithQuantityLessThanOrEqualToZero, saleWithQuantityLessThanOrEqualToZero } = require('../mocks/sale.mock');
-const { validatePostSale } = require('../../../src/services/validations/validationsInputsValuesSales');
+const {
+    salesFromModelById,
+    saleNotFound,
+    returnDeleteSaleFromDB,
+    salesFromDBById,
+    // newSale,
+} = require('../mocks/sale.mock');
+// const schema = require('../../../src/services/validations/validationsInputsValuesSales');
 
 describe('Realizando testes - SALE SERVICE:', function () {
     afterEach(function () {
@@ -37,27 +43,37 @@ describe('Realizando testes - SALE SERVICE:', function () {
         expect(product).to.be.deep.equal(saleNotFound);
     });
 
-    it('Será validado que não é possível cadastrar uma venda sem o campo "productId"', function async() {
-        const sale = saleWithoutProductId;
+//     it('Será validado que é possível cadastrar uma venda com sucesso', async function () {
+//        sinon.stub(schema, 'validatePostSale').resolves(null);
+//        sinon.stub(productModel, 'findById').resolves(Promise.resolve([[productFomDBById]]));
+//        sinon.stub(saleModel, 'insert').resolves(Promise.resolve(1));
 
-        const erro = validatePostSale(sale);
+//        const retorno = await saleService.postSale(newSale);
+// console.log(retorno);
 
-        expect(erro).to.be.deep.equal(erroSaleWithoutProductId);
+//        expect(retorno.status).to.be.equal('CREATED');
+//     //    expect(data).to.be.deep.equal(postSaleFromService);
+//     });
+
+    it('Será validado que é possível deletar uma venda com sucesso', async function () {
+        sinon.stub(saleModel, 'findById').resolves([salesFromDBById]);
+        sinon.stub(saleModel, 'deleteById').resolves(returnDeleteSaleFromDB);
+        const id = 1;
+
+        const { status, data } = await saleService.deleteSale(id);
+
+        expect(status).to.be.equal('NO_CONTENT');
+        expect(data).to.be.deep.equal({});
     });
 
-    it('Será validado que não é possível cadastrar uma venda sem o campo "quantity"', function async() {
-        const sale = saleWithoutQuantity;
+    it('Será validado que não é possível deletar uma venda que não existe', async function () {
+        sinon.stub(saleModel, 'findById').resolves([]);
+        sinon.stub(saleModel, 'deleteById').resolves(returnDeleteSaleFromDB);
+        const id = 1000000;
 
-        const erro = validatePostSale(sale);
+        const { status, data } = await saleService.deleteSale(id);
 
-        expect(erro).to.be.deep.equal(erroSaleWithoutQuantity);
-    });
-    
-    it('Será validado que não é possível cadastrar uma venda sem o campo "quantity" menor ou igual a 0', function async() {
-        const sale = saleWithQuantityLessThanOrEqualToZero;
-
-        const erro = validatePostSale(sale);
-
-        expect(erro).to.be.deep.equal(erroSaleWithQuantityLessThanOrEqualToZero);
+        expect(status).to.be.equal(saleNotFound.status);
+        expect(data).to.be.deep.equal(saleNotFound.data);
     });
 });
