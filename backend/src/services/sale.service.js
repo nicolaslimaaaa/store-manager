@@ -3,7 +3,7 @@ const { saleModel, productModel } = require('../models');
 
 const getAllSales = async () => {
     const sales = await saleModel.findAll();
-
+    console.log(sales);
     return { status: 'SUCCESSFUL', data: sales };
 };
 
@@ -44,9 +44,38 @@ const deleteSale = async (id) => {
     return { status: 'NO_CONTENT', data: {} };
 };
 
+const updateQuantityProductBySale = async (saleId, productId, sale) => {
+    const error = schema.validateUpdateSale(sale);
+
+    if (error) return { status: error.status, data: { message: error.message } }; 
+
+    const productExists = await productModel.findById(productId);
+    
+    if (!productExists) {
+        return { status: 'NOT_FOUND', data: { message: 'Product not found in sale' } };
+    }
+
+    const saleExists = await saleModel.findBySaleIdAndProductId(saleId, productId);
+    
+    if (!saleExists) {
+        return { status: 'NOT_FOUND', data: { message: 'Sale not found' } };
+    }
+    const saleUpdated = {
+        date: saleExists.date,
+        productId,
+        quantity: sale.quantity,
+        saleId,
+    };
+
+    await saleModel.update(saleId, productId, sale);
+    
+    return { status: 'SUCCESSFUL', data: { ...saleUpdated } };
+};
+
 module.exports = {
     getAllSales,
     getSaleById,
     postSale,
     deleteSale,
+    updateQuantityProductBySale,
 };

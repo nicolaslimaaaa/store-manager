@@ -60,9 +60,37 @@ const deleteById = async (id) => {
     return saleDelete;
 };
 
+const findBySaleIdAndProductId = async (saleId, productId) => {
+    const [[sale]] = await connection.execute(
+        `SELECT
+        s.date, sp.product_id, sp.quantity
+        FROM sales s
+        JOIN sales_products sp
+        ON s.id = sp.sale_id
+        WHERE s.id = ? AND sp.product_id = ?
+        ORDER BY sp.sale_id, sp.product_id;`,
+        [saleId, productId],
+    );
+
+    return camelize(sale);
+};
+
+const update = async (saleId, productId, sale) => {
+    const columns = getFormattedColumnNames(sale);
+    const placeholders = getFormattedPlaceholders(sale);
+    const query = `UPDATE sales_products
+        SET ${columns}=${placeholders} WHERE sale_id = ? AND product_id = ?;`;
+
+    const saleUpdate = await connection.execute(query, [...Object.values(sale), saleId, productId]);
+
+    return saleUpdate;
+};
+
 module.exports = {
     findAll,
     findById,
     insert,
     deleteById,
+    update,
+    findBySaleIdAndProductId,
 };

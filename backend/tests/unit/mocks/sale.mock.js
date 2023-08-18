@@ -103,6 +103,26 @@ const newSale = {
   quantity: 5,
 };
 
+const salesFromService = {
+  status: 'SUCCESSFUL',
+  data: salesFromDB,
+};
+
+const salesByIdFromService = {
+  status: 'SUCCESSFUL',
+  data: salesFromDBById,
+};
+
+const dataSalePostFromService = {
+  id: 1,
+  itemsSold: newSale,
+};
+
+const returnPostSaleFromService = {
+  status: 'CREATED',
+  data: dataSalePostFromService,
+};
+
 module.exports = {
     salesFromDB,
     salesFromDBById,
@@ -119,4 +139,8 @@ module.exports = {
     returnDeleteSaleFromDB,
     postSaleFromService,
     newSale,
+    salesFromService,
+    salesByIdFromService,
+    returnPostSaleFromService,
+    dataSalePostFromService,
 };

@@ -11,6 +11,15 @@ const saleSchema = Joi.object({
 
 const postSaleSchema = Joi.array().items(saleSchema);
 
+const saleUpdateSchema = Joi.object({
+    quantity: Joi.number().integer().min(1).required()
+.label('quantity'),
+}).messages({
+    'number.min': '{{#label}} must be greater than or equal to 1',
+    'any.required': '{{#label}} is required',
+});
+
 module.exports = {
     postSaleSchema,
+    saleUpdateSchema,
 };
